@@ -1,0 +1,92 @@
+/* Colors from the mockup slides */
+:root {
+  --panel: #dae3f3;      /* light blue background panel */
+  --accent: #4472c4;     /* blue buttons, active tab */
+  --accent-soft: #b4c7e7;
+  --border: #2f528f;
+  --text: #1a1a1a;
+  --error: #c00000;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 40px 16px;
+  font-family: Calibri, "Segoe UI", system-ui, sans-serif;
+  color: var(--text);
+  background: #fff;
+}
+
+.panel {
+  max-width: 1000px;
+  min-height: 500px;
+  margin: 0 auto;
+  padding: 24px 40px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+h1 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* --- Login form --- */
+.login {
+  display: grid;
+  grid-template-columns: auto 260px;
+  gap: 18px 24px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.login input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+}
+
+.login button {
+  grid-column: 1 / -1;
+  padding: 12px;
+  font-size: 1rem;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login button:hover { filter: brightness(1.1); }
+
+.error {
+  grid-column: 1 / -1;
+  min-height: 1.2em;
+  margin: 0;
+  color: var(--error);
+  text-align: center;
+}
+
+/* --- Header on signed-in pages: welcome left, title center, sign out right --- */
+.top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.top a {
+  justify-self: end;
+  color: var(--border);
+}
+
+@media (max-width: 600px) {
+  .panel { padding: 16px; }
+  .login { grid-template-columns: 1fr; margin-top: 40px; }
+  .top { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+  .top a { justify-self: center; }
+}
