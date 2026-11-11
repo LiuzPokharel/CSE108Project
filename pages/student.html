@@ -13,8 +13,30 @@
       <h1>ACME University</h1>
       <a href="/logout">Sign out</a>
     </header>
-    <!-- TODO (student part): "Your Courses" / "Add Courses" tabs and tables go here -->
+
+    <p id="message" class="error" role="alert"></p>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" aria-controls="mine">Your Courses</button>
+      <button role="tab" aria-selected="false" aria-controls="add">Add Courses</button>
+    </div>
+
+    <section id="mine" class="tab-panel" role="tabpanel">
+      <table>
+        <thead><tr><th>Course Name</th><th>Teacher</th><th>Time</th><th>Students Enrolled</th></tr></thead>
+        <tbody id="mine-rows"></tbody>
+      </table>
+      <p id="mine-empty" class="empty" hidden>You're not in any courses yet. Add some from the Add Courses tab.</p>
+    </section>
+
+    <section id="add" class="tab-panel" role="tabpanel" hidden>
+      <table>
+        <thead><tr><th>Course Name</th><th>Teacher</th><th>Time</th><th>Students Enrolled</th><th>Add class</th></tr></thead>
+        <tbody id="add-rows"></tbody>
+      </table>
+    </section>
   </main>
   <script src="/header.js"></script>
+  <script src="/student.js"></script>
 </body>
 </html>

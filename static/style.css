@@ -90,3 +90,86 @@ h1 {
   .top { grid-template-columns: 1fr; gap: 8px; text-align: center; }
   .top a { justify-self: center; }
 }
+
+/* --- Tabs (student page) --- */
+.tabs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.tabs button {
+  padding: 14px;
+  font: inherit;
+  font-size: 1.1rem;
+  color: var(--text);
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.tabs button[aria-selected="true"] {
+  color: #fff;
+  background: var(--accent);
+}
+
+/* --- Blue area under the tabs, holding a table --- */
+.tab-panel {
+  min-height: 300px;
+  padding: 40px;
+  background: var(--accent);
+  border: 1px solid var(--border);
+  border-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border: 1px solid #fff;
+}
+
+th {
+  color: #fff;
+  background: #8faadc;
+}
+
+tbody tr:nth-child(odd) { background: #cfd5ea; }
+tbody tr:nth-child(even) { background: #e9ebf5; }
+
+.empty {
+  color: #fff;
+  text-align: center;
+}
+
+/* --- Add / drop buttons --- */
+td.action { text-align: center; }
+
+.action button {
+  width: 48px;
+  height: 28px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action .add { background: var(--accent); }
+.action .drop { background: #e00000; }
+.action button:hover { filter: brightness(1.15); }
+
+/* Message line above the tabs, e.g. "CS 162 is full" */
+.panel > .error { margin-bottom: 12px; }
+
+@media (max-width: 600px) {
+  .tab-panel { padding: 12px; overflow-x: auto; }
+  th, td { padding: 8px 6px; }
+}
