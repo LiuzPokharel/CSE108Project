@@ -22,6 +22,7 @@ python app.py                    # then open http://127.0.0.1:5000
 ```
 python test_models.py    # database rules (no double enrollment, capacity, roles, ...)
 python test_login.py     # login, logout, role-based access
+python test_student.py   # course list, enroll, drop, capacity
 ```
 
 ## Layout
@@ -32,6 +33,15 @@ python test_login.py     # login, logout, role-based access
 | `seed.py` | Sample data from the slides |
 | `static/` | Public files: login page, CSS, JS |
 | `pages/` | Signed-in pages, only served after a role check |
+
+## API
+| Method | Route | Who | What |
+|---|---|---|---|
+| POST | `/api/login` | anyone | `{username, password}` → `{name, role, home}` |
+| GET | `/api/me` | signed in | `{name, role}` |
+| GET | `/api/courses` | student | every course + `enrolled` (true if you're in it) |
+| POST | `/api/courses/<id>/enroll` | student | add; 409 if full or already in |
+| DELETE | `/api/courses/<id>/enroll` | student | drop; 404 if not in it |
 
 ## Adding a route
 Lock any route to a role with `@role_required`:
@@ -45,6 +55,6 @@ Signed-out users get a 401 (API) or the login page; the wrong role gets a 403 (A
 
 ## Status
 - [x] Database, login/logout, sample data
-- [ ] Student: your courses, all courses, add/drop (respecting capacity)
+- [x] Student: your courses, all courses, add/drop (respecting capacity)
 - [ ] Teacher: your courses, students + grades, edit grade
 - [ ] Admin: Flask-Admin at `/admin`

@@ -4,7 +4,7 @@ from functools import wraps
 from flask import Flask, jsonify, redirect, request, send_from_directory
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 
-from models import User, db
+from models import Course, Enrollment, User, db
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DB_FILE = os.path.join(HERE, "enrollment.db")
@@ -101,6 +101,50 @@ def login():
 def me():
     """Who is signed in. Every page calls this to fill in "Welcome <name>!"."""
     return jsonify(name=current_user.name, role=current_user.role)
+
+
+# --- Student -----------------------------------------------------------------
+def course_json(course):
+    """One row of a course table: the columns from the mockups."""
+    return dict(id=course.id, name=course.name, teacher=course.teacher.name, time=course.time,
+                enrolled_count=course.enrolled_count, capacity=course.capacity)
+
+
+@app.get("/api/courses")
+@role_required("student")
+def all_courses():
+    """Every course, each marked with whether the signed-in student is in it.
+    "Your Courses" shows the enrolled ones, "Add Courses" shows them all."""
+    mine = {e.course_id for e in current_user.enrollments}
+    return jsonify([dict(course_json(c), enrolled=c.id in mine) for c in Course.query.order_by(Course.name)])
+
+
+@app.post("/api/courses/<int:course_id>/enroll")
+@role_required("student")
+def enroll(course_id):
+    course = db.session.get(Course, course_id)
+    if course is None:
+        return jsonify(error="No such course"), 404
+    if db.session.get(Enrollment, (current_user.id, course_id)):
+        return jsonify(error=f"You're already in {course.name}"), 409
+    # The page hides "+" on full courses, but anyone can send this request directly, so the server checks too.
+    # ponytail: count-then-insert, two students racing for the last seat could both get in; lock the row if that matters
+    if course.is_full:
+        return jsonify(error=f"{course.name} is full"), 409
+    db.session.add(Enrollment(student=current_user, course=course))
+    db.session.commit()
+    return jsonify(course_json(course)), 201
+
+
+@app.delete("/api/courses/<int:course_id>/enroll")
+@role_required("student")
+def drop(course_id):
+    enrollment = db.session.get(Enrollment, (current_user.id, course_id))
+    if enrollment is None:
+        return jsonify(error="You're not enrolled in that course"), 404
+    db.session.delete(enrollment)
+    db.session.commit()
+    return jsonify(course_json(db.session.get(Course, course_id)))
 
 
 if __name__ == "__main__":
