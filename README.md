@@ -42,6 +42,9 @@ python test_student.py   # course list, enroll, drop, capacity
 | GET | `/api/courses` | student | every course + `enrolled` (true if you're in it) |
 | POST | `/api/courses/<id>/enroll` | student | add; 409 if full or already in |
 | DELETE | `/api/courses/<id>/enroll` | student | drop; 404 if not in it |
+| GET | `/api/teacher/courses` | teacher | courses assigned to the signed-in teacher |
+| GET | `/api/teacher/courses/<id>/students` | teacher | enrolled students and grades for an owned course |
+| PUT | `/api/teacher/courses/<id>/students/<student_id>/grade` | teacher | set a grade from 0–100, or `null` to clear it |
 
 ## Adding a route
 Lock any route to a role with `@role_required`:
@@ -56,5 +59,5 @@ Signed-out users get a 401 (API) or the login page; the wrong role gets a 403 (A
 ## Status
 - [x] Database, login/logout, sample data
 - [x] Student: your courses, all courses, add/drop (respecting capacity)
-- [ ] Teacher: your courses, students + grades, edit grade
+- [x] Teacher: your courses, students + grades, edit grade
 - [ ] Admin: Flask-Admin at `/admin`
