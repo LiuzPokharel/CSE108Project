@@ -13,8 +13,40 @@
       <h1>ACME University</h1>
       <a href="/logout">Sign out</a>
     </header>
-    <!-- TODO (teacher part): "Your Courses" table, then each course's students with editable grades -->
+    <p id="message" class="teacher-message" role="status" aria-live="polite"></p>
+
+    <section id="courses-view" class="teacher-view">
+      <div class="teacher-title"><h2>Your Courses</h2></div>
+      <div class="teacher-blue courses-blue">
+        <div class="table-wrap courses-table">
+        <table>
+          <thead>
+            <tr><th>Course Name</th><th>Teacher</th><th>Time</th><th>Students Enrolled</th></tr>
+          </thead>
+          <tbody id="course-rows"></tbody>
+        </table>
+        </div>
+        <p id="courses-empty" class="empty" hidden>You are not assigned to any courses.</p>
+      </div>
+    </section>
+
+    <section id="roster-view" class="teacher-view" hidden>
+      <div class="teacher-blue roster-blue">
+        <div class="roster-titlebar">
+          <button id="back-to-courses" class="back-arrow" aria-label="Back to your courses">←</button>
+          <h2 id="roster-title"></h2>
+        </div>
+        <div class="table-wrap roster-table">
+          <table>
+            <thead><tr><th>Student Name</th><th>Grade</th></tr></thead>
+            <tbody id="student-rows"></tbody>
+          </table>
+        </div>
+        <p id="students-empty" class="empty" hidden>No students are enrolled in this course.</p>
+      </div>
+    </section>
   </main>
   <script src="/header.js"></script>
+  <script src="/teacher.js"></script>
 </body>
 </html>

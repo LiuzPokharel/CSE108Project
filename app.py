@@ -147,5 +147,60 @@ def drop(course_id):
     return jsonify(course_json(db.session.get(Course, course_id)))
 
 
+# --- Teacher ----------------------------------------------------------------
+@app.get("/api/teacher/courses")
+@role_required("teacher")
+def teacher_courses():
+    """Only show courses assigned to the signed-in teacher."""
+    courses = Course.query.filter_by(teacher_id=current_user.id).order_by(Course.name).all()
+    return jsonify([course_json(course) for course in courses])
+
+
+@app.get("/api/teacher/courses/<int:course_id>/students")
+@role_required("teacher")
+def course_students(course_id):
+    """Return the roster only when the signed-in teacher owns this course."""
+    course = Course.query.filter_by(id=course_id, teacher_id=current_user.id).first()
+    if course is None:
+        return jsonify(error="Course not found"), 404
+
+    roster = Enrollment.query.filter_by(course_id=course.id).join(Enrollment.student).order_by(User.name).all()
+    return jsonify(course=dict(id=course.id, name=course.name, time=course.time), students=[
+        dict(id=enrollment.student.id, name=enrollment.student.name, grade=enrollment.grade)
+        for enrollment in roster
+    ])
+
+
+@app.put("/api/teacher/courses/<int:course_id>/students/<int:student_id>/grade")
+@role_required("teacher")
+def update_student_grade(course_id, student_id):
+    """Update a grade only for a student enrolled in a course taught by this teacher."""
+    course = Course.query.filter_by(id=course_id, teacher_id=current_user.id).first()
+    if course is None:
+        return jsonify(error="Course not found"), 404
+
+    enrollment = db.session.get(Enrollment, (student_id, course_id))
+    if enrollment is None:
+        return jsonify(error="Student is not enrolled in this course"), 404
+
+    body = request.get_json(silent=True)
+    if not isinstance(body, dict):
+        return jsonify(error="Send the grade as JSON"), 400
+    value = body.get("grade")
+    if value is None or value == "":
+        enrollment.grade = None
+    else:
+        try:
+            grade = float(value)
+        except (TypeError, ValueError):
+            return jsonify(error="Enter a grade from 0 to 100"), 400
+        if not 0 <= grade <= 100:
+            return jsonify(error="Enter a grade from 0 to 100"), 400
+        enrollment.grade = grade
+
+    db.session.commit()
+    return jsonify(id=student_id, grade=enrollment.grade)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

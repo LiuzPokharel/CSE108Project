@@ -169,7 +169,109 @@ td.action { text-align: center; }
 /* Message line above the tabs, e.g. "CS 162 is full" */
 .panel > .error { margin-bottom: 12px; }
 
+/* --- Teacher screens follow the lab slides: course links, then inline grades --- */
+.teacher-message {
+  margin: 0;
+  color: #176b2c;
+  text-align: center;
+}
+
+.teacher-message:empty { display: none; }
+.teacher-message.is-error { color: var(--error); }
+
+.teacher-title {
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.teacher-title h2 {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.teacher-blue {
+  min-height: 330px;
+  background: var(--accent);
+  border: 1px solid var(--border);
+  border-top: 0;
+}
+
+.courses-blue { padding: 80px 36px 110px; }
+.table-wrap { width: 100%; overflow-x: auto; }
+.courses-table { width: 85%; margin: 0 auto; }
+.courses-table table { min-width: 620px; }
+
+.course-link {
+  color: var(--border);
+  text-decoration: underline;
+}
+
+.roster-blue {
+  min-height: 380px;
+  padding: 12px 36px 60px;
+}
+
+.roster-titlebar {
+  position: relative;
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  color: #fff;
+}
+
+.roster-titlebar h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.back-arrow {
+  position: absolute;
+  left: 0;
+  padding: 0 10px;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.back-arrow:hover { color: var(--accent-soft); }
+.roster-table { width: 66%; margin: 0 auto; }
+.roster-table table { min-width: 420px; }
+
+.grade-input {
+  width: 100%;
+  min-width: 60px;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font: inherit;
+}
+
+.grade-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.grade-input::-webkit-inner-spin-button,
+.grade-input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.grade-input { appearance: textfield; }
+
 @media (max-width: 600px) {
   .tab-panel { padding: 12px; overflow-x: auto; }
   th, td { padding: 8px 6px; }
+  .courses-blue { padding: 36px 12px 56px; }
+  .courses-table, .roster-table { width: 100%; }
+  .roster-blue { padding: 10px 12px 40px; }
 }
