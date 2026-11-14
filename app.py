@@ -4,6 +4,7 @@ from functools import wraps
 from flask import Flask, jsonify, redirect, request, send_from_directory
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 
+from admin import init_admin
 from models import Course, Enrollment, User, db
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -23,6 +24,8 @@ with app.app_context():
 
 # Where each role lands after logging in
 HOME = {"student": "/student", "teacher": "/teacher", "admin": "/admin"}
+
+init_admin(app)   # Flask-Admin screens at /admin, admins only (see admin.py)
 
 
 # --- Login machinery -------------------------------------------------------

@@ -23,6 +23,7 @@ python app.py                    # then open http://127.0.0.1:5000
 python test_models.py    # database rules (no double enrollment, capacity, roles, ...)
 python test_login.py     # login, logout, role-based access
 python test_student.py   # course list, enroll, drop, capacity
+python test_admin.py     # admin-only access; admin forms follow the same rules
 ```
 
 ## Layout
@@ -30,6 +31,7 @@ python test_student.py   # course list, enroll, drop, capacity
 |---|---|
 | `models.py` | Tables: `User` (student/teacher/admin), `Course`, `Enrollment` (with grade) |
 | `app.py` | Flask app: login, pages, API routes |
+| `admin.py` | Admin screens at `/admin` (Flask-Admin), admins only |
 | `seed.py` | Sample data from the slides |
 | `static/` | Public files: login page, CSS, JS |
 | `pages/` | Signed-in pages, only served after a role check |
@@ -60,4 +62,4 @@ Signed-out users get a 401 (API) or the login page; the wrong role gets a 403 (A
 - [x] Database, login/logout, sample data
 - [x] Student: your courses, all courses, add/drop (respecting capacity)
 - [x] Teacher: your courses, students + grades, edit grade
-- [ ] Admin: Flask-Admin at `/admin`
+- [x] Admin: Flask-Admin at `/admin` (users, courses, enrollments)
