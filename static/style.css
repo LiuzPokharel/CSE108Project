@@ -1,127 +1,148 @@
-/* Colors from the mockup slides */
+/* ACME University: plain registrar-style look. Navy header bar, white page, gray-ruled tables. */
 :root {
-  --panel: #dae3f3;      /* light blue background panel */
-  --accent: #4472c4;     /* blue buttons, active tab */
-  --accent-soft: #b4c7e7;
-  --border: #2f528f;
-  --text: #1a1a1a;
-  --error: #c00000;
+  --navy: #1f3a5f;
+  --navy-dark: #162b47;
+  --page: #eeeeea;
+  --line: #c9c9c2;
+  --head: #e4e4de;
+  --stripe: #f6f6f3;
+  --text: #222;
+  --muted: #666;
+  --error: #a61b1b;
+  --ok: #2b6a32;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  padding: 40px 16px;
-  font-family: Calibri, "Segoe UI", system-ui, sans-serif;
+  padding: 32px 16px;
+  font: 15px/1.45 Arial, Helvetica, sans-serif;
   color: var(--text);
-  background: #fff;
+  background: var(--page);
 }
 
+a { color: var(--navy); }
+
 .panel {
-  max-width: 1000px;
-  min-height: 500px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 24px 40px;
-  background: var(--panel);
-  border: 1px solid var(--border);
+  padding: 0 28px 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+/* --- Header bar: the login page's lone h1, or welcome / title / sign out --- */
+.panel > h1,
+.top {
+  margin: 0 -28px 24px;
+  padding: 14px 28px;
+  color: #fff;
+  background: var(--navy);
+  border-bottom: 3px solid #b08d3c;   /* a thin gold rule, like a school letterhead */
 }
 
 h1 {
   margin: 0;
-  font-weight: 400;
-  font-size: 2rem;
-  text-align: center;
+  font: 400 1.6rem Georgia, "Times New Roman", serif;
 }
 
-/* --- Login form --- */
-.login {
-  display: grid;
-  grid-template-columns: auto 260px;
-  gap: 18px 24px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 100px;
-}
-
-.login input {
-  padding: 8px;
-  font-size: 1rem;
-  border: 1px solid var(--border);
-}
-
-.login button {
-  grid-column: 1 / -1;
-  padding: 12px;
-  font-size: 1rem;
-  color: #fff;
-  background: var(--accent);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.login button:hover { filter: brightness(1.1); }
-
-.error {
-  grid-column: 1 / -1;
-  min-height: 1.2em;
-  margin: 0;
-  color: var(--error);
-  text-align: center;
-}
-
-/* --- Header on signed-in pages: welcome left, title center, sign out right --- */
 .top {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  margin-bottom: 32px;
 }
+
+.top h1 { text-align: center; }
+.top #welcome { font-size: 0.95rem; }
 
 .top a {
   justify-self: end;
-  color: var(--border);
+  color: #fff;
+  font-size: 0.95rem;
 }
 
-@media (max-width: 600px) {
-  .panel { padding: 16px; }
-  .login { grid-template-columns: 1fr; margin-top: 40px; }
-  .top { grid-template-columns: 1fr; gap: 8px; text-align: center; }
-  .top a { justify-self: center; }
-}
+/* --- Login --- */
+.panel:has(.login) { max-width: 420px; margin-top: 60px; }
+.panel > h1 { text-align: center; }
 
-/* --- Tabs (student page) --- */
-.tabs {
+.login {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  gap: 6px;
+  padding: 8px 4px 0;
 }
 
-.tabs button {
-  padding: 14px;
+.login label {
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.login input {
+  padding: 7px 8px;
   font: inherit;
-  font-size: 1.1rem;
-  color: var(--text);
-  background: var(--accent-soft);
-  border: 1px solid var(--border);
+  border: 1px solid #999;
+  border-radius: 2px;
+}
+
+.login input:focus { outline: 2px solid var(--navy); outline-offset: -1px; border-color: var(--navy); }
+
+.login button {
+  margin-top: 16px;
+  padding: 9px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--navy);
+  border: 1px solid var(--navy-dark);
+  border-radius: 2px;
   cursor: pointer;
 }
 
+.login button:hover { background: var(--navy-dark); }
+
+.error {
+  min-height: 1.2em;
+  margin: 8px 0 0;
+  color: var(--error);
+}
+
+.panel > .error { margin: 0 0 12px; }
+.panel > .error:empty { min-height: 0; margin: 0; }
+
+/* --- Student tabs: plain folder tabs sitting on the table --- */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs button {
+  margin-bottom: -1px;
+  padding: 8px 18px;
+  font: inherit;
+  color: var(--muted);
+  background: var(--head);
+  border: 1px solid var(--line);
+  border-radius: 3px 3px 0 0;
+  cursor: pointer;
+}
+
+.tabs button:hover { color: var(--text); }
+
 .tabs button[aria-selected="true"] {
-  color: #fff;
-  background: var(--accent);
+  color: var(--text);
+  font-weight: 700;
+  background: #fff;
+  border-bottom-color: #fff;
 }
 
-/* --- Blue area under the tabs, holding a table --- */
 .tab-panel {
-  min-height: 300px;
-  padding: 40px;
-  background: var(--accent);
-  border: 1px solid var(--border);
-  border-top: 0;
+  padding: 18px 0 0;
+  overflow-x: auto;
 }
 
+/* --- Tables --- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -129,149 +150,97 @@ table {
 }
 
 th, td {
-  padding: 10px 12px;
+  padding: 8px 10px;
   text-align: left;
-  border: 1px solid #fff;
+  border: 1px solid var(--line);
 }
 
 th {
-  color: #fff;
-  background: #8faadc;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--head);
 }
 
-tbody tr:nth-child(odd) { background: #cfd5ea; }
-tbody tr:nth-child(even) { background: #e9ebf5; }
+tbody tr:nth-child(even) { background: var(--stripe); }
 
 .empty {
-  color: #fff;
-  text-align: center;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-style: italic;
 }
 
 /* --- Add / drop buttons --- */
-td.action { text-align: center; }
+td.action { width: 90px; text-align: center; }
 
 .action button {
-  width: 48px;
-  height: 28px;
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 1;
+  min-width: 34px;
+  padding: 2px 10px;
+  font: 700 1rem Arial, sans-serif;
   color: #fff;
-  border: 0;
-  border-radius: 4px;
+  border: 1px solid transparent;
+  border-radius: 2px;
   cursor: pointer;
 }
 
-.action .add { background: var(--accent); }
-.action .drop { background: #e00000; }
-.action button:hover { filter: brightness(1.15); }
+.action .add { background: var(--navy); }
+.action .drop { background: var(--error); }
+.action button:hover { filter: brightness(1.2); }
 
-/* Message line above the tabs, e.g. "CS 162 is full" */
-.panel > .error { margin-bottom: 12px; }
-
-/* --- Teacher screens follow the lab slides: course links, then inline grades --- */
-.teacher-message {
-  margin: 0;
-  color: #176b2c;
-  text-align: center;
-}
-
+/* --- Teacher: course list, then a roster with editable grades --- */
+.teacher-message { margin: 0 0 12px; color: var(--ok); }
 .teacher-message:empty { display: none; }
 .teacher-message.is-error { color: var(--error); }
 
-.teacher-title {
-  color: #fff;
-  background: var(--accent);
-  border: 1px solid var(--border);
-  text-align: center;
+.teacher-title h2,
+.roster-titlebar h2 {
+  margin: 0 0 12px;
+  font: 400 1.25rem Georgia, "Times New Roman", serif;
 }
 
-.teacher-title h2 {
-  margin: 0;
-  padding: 10px 12px;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.teacher-blue {
-  min-height: 330px;
-  background: var(--accent);
-  border: 1px solid var(--border);
-  border-top: 0;
-}
-
-.courses-blue { padding: 80px 36px 110px; }
-.table-wrap { width: 100%; overflow-x: auto; }
-.courses-table { width: 85%; margin: 0 auto; }
-.courses-table table { min-width: 620px; }
-
-.course-link {
-  color: var(--border);
-  text-decoration: underline;
-}
-
-.roster-blue {
-  min-height: 380px;
-  padding: 12px 36px 60px;
-}
+.table-wrap { overflow-x: auto; }
+.courses-table table { min-width: 560px; }
+.roster-table { max-width: 520px; }
 
 .roster-titlebar {
-  position: relative;
   display: flex;
-  min-height: 42px;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-  color: #fff;
-}
-
-.roster-titlebar h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 700;
+  align-items: baseline;
+  gap: 14px;
 }
 
 .back-arrow {
-  position: absolute;
-  left: 0;
-  padding: 0 10px;
-  color: #fff;
-  background: transparent;
-  border: 0;
+  padding: 3px 10px;
   font: inherit;
-  font-size: 2rem;
-  line-height: 1;
+  font-size: 0.9rem;
+  color: var(--navy);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 2px;
   cursor: pointer;
 }
 
-.back-arrow:hover { color: var(--accent-soft); }
-.roster-table { width: 66%; margin: 0 auto; }
-.roster-table table { min-width: 420px; }
+.back-arrow:hover { background: var(--stripe); }
 
 .grade-input {
-  width: 100%;
-  min-width: 60px;
-  padding: 0;
-  color: inherit;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
+  width: 70px;
+  padding: 3px 5px;
   font: inherit;
+  color: inherit;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 2px;
+  appearance: textfield;
 }
 
-.grade-input:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
+.grade-input:focus { outline: 2px solid var(--navy); outline-offset: -1px; }
 .grade-input::-webkit-inner-spin-button,
 .grade-input::-webkit-outer-spin-button { appearance: none; margin: 0; }
-.grade-input { appearance: textfield; }
 
 @media (max-width: 600px) {
-  .tab-panel { padding: 12px; overflow-x: auto; }
-  th, td { padding: 8px 6px; }
-  .courses-blue { padding: 36px 12px 56px; }
-  .courses-table, .roster-table { width: 100%; }
-  .roster-blue { padding: 10px 12px 40px; }
+  body { padding: 0; }
+  .panel { padding: 0 16px 20px; border: 0; }
+  .panel:has(.login) { margin-top: 0; }
+  .panel > h1, .top { margin: 0 -16px 20px; padding: 12px 16px; }
+  .top { grid-template-columns: 1fr auto; gap: 4px 12px; }
+  .top h1 { grid-column: 1 / -1; grid-row: 1; text-align: left; font-size: 1.3rem; }
+  th, td { padding: 7px 6px; }
 }
