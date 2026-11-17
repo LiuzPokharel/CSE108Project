@@ -24,6 +24,7 @@ python test_models.py    # database rules (no double enrollment, capacity, roles
 python test_login.py     # login, logout, role-based access
 python test_student.py   # course list, enroll, drop, capacity
 python test_admin.py     # admin-only access; admin forms follow the same rules
+python test_teacher.py   # own courses only, roster and grades, editing a grade
 ```
 
 ## Layout
